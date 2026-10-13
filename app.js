@@ -16,8 +16,8 @@ function validReview(r){return r && /^[0-9A-F]{16}$/.test(r.titleId) && Number.i
   Object.hasOwn(STATUS,r.status) && typeof r.gpu==='string' && r.gpu.length<=100 &&
   /^https:\/\/github\.com\/LukeValen\/Strato-Mali-Compatibility\/issues\/\d+$/.test(r.url||'');}
 function statusFor(list){
-  // Each report remains visible. The newest report is the summary label, not a claim about every device.
-  return [...list].sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0]?.status;
+  // The published feed is sorted by date and numeric issue ID. This is its newest report.
+  return list[list.length-1]?.status;
 }
 function ratingFor(list){return list.reduce((sum,r)=>sum+r.stars,0)/list.length;}
 function detailRow(review){
