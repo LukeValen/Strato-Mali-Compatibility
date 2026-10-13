@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071124">
+  <meta name="description" content="Relatos da comunidade sobre a compatibilidade de jogos no Strato Mali, separados por GPU e versão.">
+  <title>Compatibilidade · Strato Mali</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Strato Mali, início"><span class="brand-mark">S<span>.</span></span><span>STRATO <strong>MALI</strong></span></a>
+    <nav aria-label="Navegação principal">
+      <a class="nav-active" href="#catalogo">Jogos</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a class="nav-github" href="https://github.com/LukeValen/Strato-Mali-Compatibility" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="live-dot"></span> CONSTRUÍDO PELA COMUNIDADE</div>
+        <h1 id="hero-title">Seu jogo roda no <em>Strato Mali?</em></h1>
+        <p>Veja experiências reais por GPU, versão e jogo. Testou algum título? Compartilhe o resultado e ajude outras pessoas a saber o que esperar.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="https://github.com/LukeValen/Strato-Mali-Compatibility/issues/new?template=compatibility-report.yml" target="_blank" rel="noopener noreferrer">Enviar avaliação <span aria-hidden="true">↗</span></a>
+          <a class="button button-secondary" href="#catalogo">Explorar jogos <span aria-hidden="true">↓</span></a>
+        </div>
+        <p class="hero-caption">De 0 a 5 estrelas · Relatos revisados antes da publicação</p>
+      </div>
+      <div class="hero-panel" aria-hidden="true">
+        <div class="panel-top"><span class="panel-dot"></span><span class="panel-dot"></span><span class="panel-dot"></span><span class="panel-label">COMPATIBILITY REPORT</span></div>
+        <div class="panel-game-icon">✦</div>
+        <div class="panel-line panel-line-lg"></div><div class="panel-line panel-line-sm"></div>
+        <div class="panel-stars">★★★★★</div>
+        <div class="panel-meta"><span>GPU MALI</span><span>0 — 5 ★</span></div>
+        <div class="panel-orbit orbit-one"></div><div class="panel-orbit orbit-two"></div>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Estatísticas da lista">
+      <div><strong id="games-count">—</strong><span>jogos no catálogo</span></div>
+      <div><strong id="reports-count">—</strong><span>avaliações publicadas</span></div>
+      <div><strong id="gpus-count">—</strong><span>GPUs avaliadas</span></div>
+    </section>
+
+    <section class="catalog" id="catalogo" aria-labelledby="catalog-title">
+      <div class="section-heading"><div><span class="section-kicker">EXPLORE A LISTA</span><h2 id="catalog-title">Compatibilidade de jogos</h2><p>Escolha sua GPU para ver avaliações relevantes ao seu aparelho.</p></div><span class="update-tag" id="updated-at">Lista inicial</span></div>
+      <div class="filters">
+        <label class="search-field"><span aria-hidden="true">⌕</span><span class="sr-only">Buscar jogo ou Title ID</span><input id="search" type="search" placeholder="Buscar jogo ou Title ID…" autocomplete="off"></label>
+        <label class="select-field"><span class="sr-only">Filtrar por GPU</span><select id="gpu-filter"><option value="">Todas as GPUs</option></select></label>
+        <label class="select-field"><span class="sr-only">Filtrar por status</span><select id="status-filter"><option value="">Todos os status</option><option value="playable">Jogável</option><option value="ingame">Dentro do jogo</option><option value="boots">Inicia</option><option value="nothing">Não inicia</option><option value="unplayable">Injogável</option></select></label>
+      </div>
+      <p id="results-summary" class="results-summary" aria-live="polite">Carregando jogos…</p>
+      <div id="game-grid" class="game-grid" aria-live="polite"></div>
+      <div id="empty-state" class="empty-state" hidden><div aria-hidden="true">⌕</div><h3>Nenhum jogo encontrado</h3><p>Tente outro termo ou filtro. Você também pode enviar o primeiro teste deste jogo.</p></div>
+      <div id="data-error" class="error-state" role="status" hidden>Não foi possível carregar a lista agora. Tente atualizar a página.</div>
+    </section>
+
+    <section class="how" id="como-funciona" aria-labelledby="how-title"><div class="how-intro"><span class="section-kicker">UM REGISTRO POR TESTE</span><h2 id="how-title">Como funciona</h2><p>Resultados podem mudar conforme a GPU, o driver e a versão do emulador. Cada relato mostra esse contexto.</p></div><div class="how-steps"><article><span class="step-number">01</span><h3>Jogue e observe</h3><p>Teste no Strato Mali e anote o Title ID, sua GPU, a versão e os problemas encontrados.</p></article><article><span class="step-number">02</span><h3>Envie seu relato</h3><p>Preencha o formulário no GitHub com status e nota de 0 a 5 estrelas. Uma conta GitHub é necessária.</p></article><article><span class="step-number">03</span><h3>Revisão e publicação</h3><p>Depois de revisado e aprovado, o relato aparece aqui. A nota exibida é a média dos testes filtrados.</p></article></div></section>
+  </main>
+  <footer><div class="footer-brand">STRATO <strong>MALI</strong><span> · Compatibilidade</span></div><p>Relatos da comunidade não garantem o mesmo resultado em todos os aparelhos. Nenhum jogo é fornecido aqui.</p><a href="https://github.com/LukeValen/Strato-Mali-Compatibility/issues" target="_blank" rel="noopener noreferrer">Ver relatos no GitHub ↗</a></footer>
+</body>
+</html>
