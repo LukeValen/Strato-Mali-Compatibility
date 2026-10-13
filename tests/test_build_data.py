@@ -47,6 +47,15 @@ def issue(body=BODY, labels=None):
             'created_at': '2026-10-13T10:00:00Z'}
 
 class ReviewTests(unittest.TestCase):
+    def test_english_form_and_legacy_portuguese_reports(self):
+        english = (BODY.replace('### Jogo', '### Game').replace('### GPU Mali', '### Mali GPU')
+                   .replace('### Driver Vulkan', '### Vulkan driver')
+                   .replace('### Versão do Strato Mali', '### Strato Mali version')
+                   .replace('### Nota', '### Rating').replace('0 estrelas', '5 stars')
+                   .replace('### Observações', '### Notes'))
+        self.assertEqual(builder.parse_issue(issue(english))['stars'], 5)
+        self.assertEqual(builder.parse_issue(issue(BODY))['stars'], 0)
+
     def test_zero_stars_and_context(self):
         result = builder.parse_issue(issue())
         self.assertEqual((result['stars'], result['status'], result['gpu']), (0, 'playable', 'Mali-G615 MC6'))
