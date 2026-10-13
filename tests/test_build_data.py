@@ -1,0 +1,65 @@
+import importlib.util
+from pathlib import Path
+import tempfile
+import unittest
+import json
+
+spec = importlib.util.spec_from_file_location('build_data', Path(__file__).parents[1] / 'scripts' / 'build_data.py')
+builder = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(builder)
+
+BODY = '''### Jogo
+
+NieR:Automata The End of YoRHa Edition
+
+### Title ID
+
+0100B8E016F76000
+
+### GPU Mali
+
+Mali-G615 MC6
+
+### Driver Vulkan
+
+Arm 44.1.0
+
+### Versão do Strato Mali
+
+0.0.4-2
+
+### Status
+
+Playable
+
+### Nota
+
+0 estrelas
+
+### Observações
+
+Baixo FPS, mas o jogo continua.
+'''
+
+def issue(body=BODY, labels=None):
+    return {'body': body, 'labels': labels if labels is not None else [{'name': builder.APPROVAL_LABEL}],
+            'html_url': 'https://github.com/LukeValen/Strato-Mali-Compatibility/issues/12',
+            'created_at': '2026-10-13T10:00:00Z'}
+
+class ReviewTests(unittest.TestCase):
+    def test_zero_stars_and_context(self):
+        result = builder.parse_issue(issue())
+        self.assertEqual((result['stars'], result['status'], result['gpu']), (0, 'playable', 'Mali-G615 MC6'))
+
+    def test_approval_and_title_id_required(self):
+        self.assertIsNone(builder.parse_issue(issue(labels=[])))
+        self.assertIsNone(builder.parse_issue(issue(BODY.replace('0100B8E016F76000','incorrect'))))
+
+    def test_static_json_contains_only_approved(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'reviews.json'
+            builder.build([issue(), issue(labels=[])], path)
+            self.assertEqual(len(json.loads(path.read_text())['reviews']), 1)
+
+if __name__ == '__main__':
+    unittest.main()
