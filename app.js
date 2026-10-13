@@ -70,7 +70,7 @@ function render(){
 }
 async function init(){
   try{
-    const [catalogResponse,reviewsResponse]=await Promise.all([fetch(BASE+'games.json'),fetch(BASE+'reviews.json',{cache:'no-cache'})]);
+    const [catalogResponse,reviewsResponse]=await Promise.all([fetch(BASE+'games.json?v=2',{cache:'no-cache'}),fetch(BASE+'reviews.json',{cache:'no-cache'})]);
     if(!catalogResponse.ok||!reviewsResponse.ok)throw new Error('Data unavailable');
     const catalog=await catalogResponse.json(),data=await reviewsResponse.json();
     if(!Array.isArray(catalog)||!Array.isArray(data.reviews))throw new Error('Invalid data');
