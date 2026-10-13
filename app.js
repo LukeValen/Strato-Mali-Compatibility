@@ -35,7 +35,11 @@ function makeCard(game,list){
   const card=element('article','game-card');
   const top=element('div','card-top'),tile=element('div','game-tile',game.title.trim().slice(0,1).toUpperCase());
   tile.setAttribute('aria-hidden','true');
-  const titleWrap=element('div');titleWrap.append(element('h3','game-title',game.title),element('span','game-id',game.titleId));top.append(tile,titleWrap);card.append(top);
+  if(typeof game.cover==='string' && /^https:\/\//.test(game.cover)){
+    const cover=element('img','game-cover');cover.src=game.cover;cover.alt=`Capa de ${game.title}`;cover.loading='lazy';
+    cover.addEventListener('error',()=>cover.replaceWith(tile),{once:true});top.append(cover);
+  }else top.append(tile);
+  const titleWrap=element('div');titleWrap.append(element('h3','game-title',game.title),element('span','game-id',game.titleId));top.append(titleWrap);card.append(top);
   const status=statusFor(list),badge=element('span',`status ${status?'status-'+status:''}`,status?STATUS[status]:'Aguardando teste');
   card.append(badge);
   const rating=element('div','rating-line');
