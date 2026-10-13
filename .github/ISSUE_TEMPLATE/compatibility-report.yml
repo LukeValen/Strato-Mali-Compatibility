@@ -1,0 +1,79 @@
+name: Avaliação de compatibilidade
+description: Envie seu teste do Strato Mali. Relatos só aparecem na lista após revisão.
+title: "[Compatibility]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por testar! O relato será público no GitHub. Não inclua ROMs, chaves, dados pessoais ou links de download. Após revisão, a equipe adicionará a etiqueta `compatibility-approved` para publicá-lo.
+  - type: input
+    id: title
+    attributes:
+      label: Jogo
+      placeholder: "Ex.: NieR:Automata The End of YoRHa Edition"
+    validations:
+      required: true
+  - type: input
+    id: title-id
+    attributes:
+      label: Title ID
+      description: 16 caracteres hexadecimais do jogo base, para identificar o jogo sem confundir versões e nomes.
+      placeholder: "0100B8E016F76000"
+    validations:
+      required: true
+  - type: input
+    id: gpu
+    attributes:
+      label: GPU Mali
+      placeholder: "Mali-G615 MC6 ou Mali-G720"
+    validations:
+      required: true
+  - type: input
+    id: driver
+    attributes:
+      label: Driver Vulkan
+      placeholder: "Arm 44.1.0"
+    validations:
+      required: true
+  - type: input
+    id: emulator
+    attributes:
+      label: Versão do Strato Mali
+      placeholder: "0.0.4-2 ou hash da build"
+    validations:
+      required: true
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      description: Escolha o estágio alcançado nesta GPU e versão.
+      options:
+        - Playable
+        - In-game
+        - Boots
+        - Nothing
+        - Unplayable
+    validations:
+      required: true
+  - type: dropdown
+    id: stars
+    attributes:
+      label: Nota
+      description: 0 significa que não funcionou; 5 significa ótima experiência. A nota é sua avaliação, independente do status.
+      options:
+        - 0 estrelas
+        - 1 estrela
+        - 2 estrelas
+        - 3 estrelas
+        - 4 estrelas
+        - 5 estrelas
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Observações
+      description: Descreva FPS aproximado, bugs, momento do crash e opções especiais, se relevantes.
+      placeholder: "Ex.: 30 FPS na fase inicial, sem falhas de textura; BCN compute ativo."
+    validations:
+      required: true

@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Código do Strato Mali
+    url: https://github.com/LukeValen/Strato-Mali-Public-Build/issues
+    about: Falhas do emulador e sugestões de código pertencem ao repositório principal.
