@@ -14,8 +14,10 @@ APPROVAL_LABEL = "compatibility-approved"
 ISSUE_URL = re.compile(r"https://github\.com/LukeValen/Strato-Mali-Compatibility/issues/\d+\Z")
 TITLE_ID = re.compile(r"[0-9A-F]{16}\Z")
 STATUS = {"Playable": "playable", "In-game": "ingame", "Boots": "boots", "Nothing": "nothing", "Unplayable": "unplayable"}
-HEADINGS = {"Jogo": "title", "Title ID": "titleId", "GPU Mali": "gpu", "Driver Vulkan": "driver",
-            "Versão do Strato Mali": "emulatorVersion", "Status": "status", "Nota": "stars", "Observações": "notes"}
+HEADINGS = {"Game": "title", "Jogo": "title", "Title ID": "titleId", "Mali GPU": "gpu", "GPU Mali": "gpu",
+            "Vulkan driver": "driver", "Driver Vulkan": "driver", "Strato Mali version": "emulatorVersion",
+            "Versão do Strato Mali": "emulatorVersion", "Status": "status", "Rating": "stars", "Nota": "stars",
+            "Notes": "notes", "Observações": "notes"}
 
 
 def parse_body(body):
@@ -39,7 +41,7 @@ def parse_issue(issue):
     values = parse_body(issue.get("body") or "")
     title_id = values.get("titleId", "").removeprefix("0x").upper()
     url = issue.get("html_url", "")
-    star_match = re.fullmatch(r"([0-5]) estrelas?", values.get("stars", ""))
+    star_match = re.fullmatch(r"([0-5]) (?:estrelas?|stars?)", values.get("stars", ""))
     status = STATUS.get(values.get("status"))
     if not (TITLE_ID.fullmatch(title_id) and ISSUE_URL.fullmatch(url) and star_match and status):
         return None
@@ -80,7 +82,7 @@ def fetch_approved(token):
 
 def build(issues, destination):
     reviews = [parsed for issue in issues if (parsed := parse_issue(issue)) is not None]
-    reviews.sort(key=lambda review: (review["titleId"], review["date"], review["url"]))
+    reviews.sort(key=lambda review: (review["titleId"], review["date"], int(review["url"].rsplit("/", 1)[1])))
     payload = {"generatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"), "reviews": reviews}
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
