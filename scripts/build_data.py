@@ -66,7 +66,7 @@ def fetch_approved(token):
         raise RuntimeError("GITHUB_TOKEN is required for publication")
     issues = []
     for page in range(1, 101):
-        query = urlencode({"state": "open", "labels": APPROVAL_LABEL, "per_page": 100, "page": page})
+        query = urlencode({"state": "all", "labels": APPROVAL_LABEL, "per_page": 100, "page": page})
         request = Request(f"https://api.github.com/repos/{REPO}/issues?{query}", headers={
             "Accept": "application/vnd.github+json", "Authorization": f"Bearer {token}",
             "X-GitHub-Api-Version": "2022-11-28", "User-Agent": "Strato-Mali-Compatibility-Pages"})

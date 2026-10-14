@@ -3,6 +3,9 @@ from pathlib import Path
 import tempfile
 import unittest
 import json
+from unittest.mock import patch
+from io import BytesIO
+from urllib.parse import parse_qs, urlparse
 
 spec = importlib.util.spec_from_file_location('build_data', Path(__file__).parents[1] / 'scripts' / 'build_data.py')
 builder = importlib.util.module_from_spec(spec)
@@ -55,6 +58,18 @@ class ReviewTests(unittest.TestCase):
                    .replace('### Observações', '### Notes'))
         self.assertEqual(builder.parse_issue(issue(english))['stars'], 5)
         self.assertEqual(builder.parse_issue(issue(BODY))['stars'], 0)
+
+    def test_closed_approved_reports_are_fetched_and_published(self):
+        approved = dict(issue(), state='closed')
+        with patch.object(builder, 'urlopen', return_value=BytesIO(json.dumps([approved]).encode())) as fetch:
+            reports = builder.fetch_approved('test-token')
+        query = parse_qs(urlparse(fetch.call_args.args[0].full_url).query)
+        self.assertEqual(query['state'], ['all'])
+        self.assertEqual(query['labels'], [builder.APPROVAL_LABEL])
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'reviews.json'
+            builder.build(reports + [dict(issue(labels=[]), state='closed')], path)
+            self.assertEqual(len(json.loads(path.read_text())['reviews']), 1)
 
     def test_zero_stars_and_context(self):
         result = builder.parse_issue(issue())
